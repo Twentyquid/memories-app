@@ -57,7 +57,7 @@ export async function signUp(req, res) {
   try {
     let oldUser = await User.findOne({ username });
     console.log("Old user is: ", oldUser);
-    if (oldUser.name == username) {
+    if (oldUser && oldUser.name == username) {
       res.status(400).json({ status: "user already exists" });
     } else {
       let newUser = new User({ name: username, email });
