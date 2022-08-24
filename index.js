@@ -4,6 +4,7 @@ import dotenv from "dotenv";
 import mongoose from "mongoose";
 
 import feedRoute from "./routes/feed.js";
+import signUpRoute from "./routes/signup.js";
 
 dotenv.config();
 const app = express();
@@ -17,6 +18,7 @@ app.use(
 app.use(express.urlencoded({ extended: true, limit: "3mb" }));
 
 app.use("/feed", feedRoute);
+app.use("/signup", signUpRoute);
 
 mongoose
   .connect(process.env.CONNECTION_URL)
@@ -28,3 +30,7 @@ mongoose
   .catch((err) => {
     console.log(err);
   });
+
+app.use(function (err, req, res, next) {
+  res.status(err.status || 500).json({ status: err.status });
+});
